@@ -19,7 +19,7 @@ argparser.add_argument('client_secrets_json_location', type=str,
                              'file is located. (Leave a trailing / at the end!)'))
 
 def main(argv):
-  client_secrets_json = argparser.parse_args(argv[1:]).client_secrets_json_location
+  client_secrets_json = argv[3]
 
   service, flags = sample_tools.init(
       argv, 'webmasters', 'v3', __doc__, client_secrets_json, parents=[argparser],
