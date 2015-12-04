@@ -29,7 +29,7 @@ def main(argv):
 
   # DB connection
   engine = create_engine('postgresql+psycopg2://gscuser:Gsc@BT2015@172.16.190.19:5439/gsc')
-  engine = create_engine('postgresql+psycopg2://lmazou@localhost:5432/lmazou')
+  # engine = create_engine('postgresql+psycopg2://lmazou@localhost:5432/lmazou')
   conn = engine.connect()
 
   schema_name = flags.property_uri.replace(".", "_")
