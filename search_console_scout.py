@@ -13,19 +13,23 @@ argparser.add_argument('property_uri', type=str,
                        help=('Site or app URI to query data for (including '
                              'trailing slash).'))
 argparser.add_argument('days', type=int,
-                       help=('How many days\' worth of data to retrieve and store'))
+                       help=('How many days\' worth of data to retrieve and store?'))
+argparser.add_argument('client_secrets_json_location', type=str,
+                       help=('The folder where the client_secrets.json credential '
+                             'file is located. (Leave a trailing / at the end!)'))
 
 def main(argv):
+  client_secrets_json = argparser.parse_args(argv[1:]).client_secrets_json_location
+
   service, flags = sample_tools.init(
-      argv, 'webmasters', 'v3', __doc__, __file__, parents=[argparser],
+      argv, 'webmasters', 'v3', __doc__, client_secrets_json, parents=[argparser],
       scope='https://www.googleapis.com/auth/webmasters.readonly')
 
   search_types = ['web', 'image', 'video']
 
   # DB connection
-  # engine = create_engine('mysql+mysqldb://root:root@127.0.0.1:8889/search_console')
   engine = create_engine('postgresql+psycopg2://gscuser:Gsc@BT2015@172.16.190.19:5439/gsc')
-  # engine = create_engine('redshift+psycopg2://gscuser:Gsc@BT2015@poccluster.clx2lnyxqwmh.us-east-1.redshift.amazonaws.com:5439/gsc')
+  engine = create_engine('postgresql+psycopg2://lmazou@localhost:5432/lmazou')
   conn = engine.connect()
 
   schema_name = flags.property_uri.replace(".", "_")
