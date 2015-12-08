@@ -55,7 +55,7 @@ def main(argv):
   )
   pages = Table('pages', metadata,
     Column('date', String(10)),
-    Column('page', String(500)),
+    Column('page', String(2000)),
     Column('country', String(3)),
     Column('device', String(7)),
     Column('search_type', String(5)),
@@ -89,17 +89,18 @@ def main(argv):
       # print_table(response, 'Queries')
 
       # Queries DB storage
-      for row in response['rows']:
-          date = row['keys'][0]
-          query = row['keys'][1]
-          country = row['keys'][2]
-          device = row['keys'][3]
-          clicks = row['clicks']
-          impressions = row['impressions']
-          ctr = row['ctr']
-          position = row['position']
-          ins = queries.insert().values(date=date, query=query, country=country, device=device, search_type=search_type, clicks=clicks, impressions=impressions, ctr=ctr, position=position)
-          conn.execute(ins)
+      if 'rows' in response:
+          for row in response['rows']:
+              date = row['keys'][0]
+              query = row['keys'][1]
+              country = row['keys'][2]
+              device = row['keys'][3]
+              clicks = row['clicks']
+              impressions = row['impressions']
+              ctr = row['ctr']
+              position = row['position']
+              ins = queries.insert().values(date=date, query=query, country=country, device=device, search_type=search_type, clicks=clicks, impressions=impressions, ctr=ctr, position=position)
+              conn.execute(ins)
 
       # Pages API call
       request = {
@@ -112,17 +113,18 @@ def main(argv):
       # print_table(response, 'Pages')
 
       # Pages DB storage
-      for row in response['rows']:
-          date = row['keys'][0]
-          page = row['keys'][1]
-          country = row['keys'][2]
-          device = row['keys'][3]
-          clicks = row['clicks']
-          impressions = row['impressions']
-          ctr = row['ctr']
-          position = row['position']
-          ins = pages.insert().values(date=date, page=page, country=country, device=device, search_type=search_type, clicks=clicks, impressions=impressions, ctr=ctr, position=position)
-          conn.execute(ins)
+      if 'rows' in response:
+          for row in response['rows']:
+              date = row['keys'][0]
+              page = row['keys'][1]
+              country = row['keys'][2]
+              device = row['keys'][3]
+              clicks = row['clicks']
+              impressions = row['impressions']
+              ctr = row['ctr']
+              position = row['position']
+              ins = pages.insert().values(date=date, page=page, country=country, device=device, search_type=search_type, clicks=clicks, impressions=impressions, ctr=ctr, position=position)
+              conn.execute(ins)
 
   print('Done!')
 
